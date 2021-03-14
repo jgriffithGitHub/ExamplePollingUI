@@ -9,6 +9,7 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -56,7 +57,13 @@ public class Function
 				log.info("No headers");			
 			}
 			else
-			{				
+			{	
+				Iterator<Entry<String, String>> iterator = keySet.iterator();
+				while(iterator.hasNext())
+				{
+					Entry<String, String> entry = iterator.next();
+					retText += "Header Key: " + entry.getKey() + " Value: " + entry.getValue() + "\n";
+				}
 				principalName = headers.get("x-ms-client-principal-name");
 				principalId = headers.get("x-ms-client-principal-id");
 			}
@@ -65,6 +72,6 @@ public class Function
 		log.info("principalName: " + principalName);
 		log.info("principalId: " + principalId);
 		
-		return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + principalName).build();
+		return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + principalName + " ---" + retText).build();
 	}
 }
