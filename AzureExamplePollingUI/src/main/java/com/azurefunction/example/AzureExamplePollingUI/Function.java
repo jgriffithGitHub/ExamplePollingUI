@@ -47,14 +47,14 @@ public class Function
 		
 		if(headers == null || headers.isEmpty())
 		{
-			log.info("No headers");			
+			retText = "No headers";			
 		}
 		else
 		{
 			Set<Entry<String, String>> keySet = headers.entrySet();
 			if(keySet == null || keySet.isEmpty())
 			{
-				log.info("No headers");			
+				retText = "No headers";			
 			}
 			else
 			{	
@@ -69,6 +69,7 @@ public class Function
 			}
 		}
 		
+		log.info(retText);			
 		log.info("principalName: " + principalName);
 		log.info("principalId: " + principalId);
 		
