@@ -71,24 +71,17 @@ public class Function
 		log.info("principalId: " + principalId);
 
 		String uiTemplate = "";
-		InputStream is = Function.class.getClassLoader().getResourceAsStream("baseUi.html");
-		//Path uiFilePath = Path.of("src/main/resources/baseUi.html");
-		//log.info(uiFilePath.toAbsolutePath().toString());
 		try
 		{
+			InputStream is = Function.class.getClassLoader().getResourceAsStream("baseUi.html");
 			byte[] htmlData = is.readAllBytes();			
 			uiTemplate = new String(htmlData);
-			//uiTemplate = "<html><head></head><body>This is HTML.</body></html>";
 			PageBuilder pb = new PageBuilder();
 			
-			//uiTemplate = "<html><head></head><body>Election ID = " + pb.setElectionId(log) + "</body></html>";
 			pb.setElectionId(log);
 			
-			//uiTemplate = pb.setTitle(uiTemplate, log);
-			//uiTemplate = pb.setVotes(uiTemplate, log);
-			
-			//log.info(uiTemplate);
-			
+			uiTemplate = pb.setTitle(uiTemplate, log);
+			uiTemplate = pb.setVotes(uiTemplate, log);
 	 	} 
 		catch (IOException e)
 		{
