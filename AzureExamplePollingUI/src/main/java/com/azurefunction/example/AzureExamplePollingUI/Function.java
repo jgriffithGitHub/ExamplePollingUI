@@ -82,6 +82,13 @@ public class Function
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
+		PageBuilder pb = new PageBuilder();
+		pb.setElectionId(log);
+		uiTemplate = pb.setTitle(uiTemplate, log);
+		uiTemplate = pb.setVotes(uiTemplate, log);
+		
+		log.info(uiTemplate);
 		
 		return request.createResponseBuilder(HttpStatus.OK).header("Content-Type", "test/html").body(uiTemplate).build();
 	}
