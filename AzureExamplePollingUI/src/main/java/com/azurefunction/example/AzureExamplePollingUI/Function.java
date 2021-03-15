@@ -73,19 +73,14 @@ public class Function
 		String uiTemplate = "";
 		try
 		{
-			InputStream is = Function.class.getClassLoader().getResourceAsStream("baseUi.html");
-			byte[] htmlData = is.readAllBytes();			
-			uiTemplate = new String(htmlData);
-			PageBuilder pb = new PageBuilder();
-			
+			PageBuilder pb = new PageBuilder();			
 			pb.loadTemplate();
-			pb.setElectionId(log);
-			
+			pb.setElectionId(log);			
 			pb.setTitle(log);
 			pb.setVotes(log);
 			uiTemplate = pb.getPage();
 	 	} 
-		catch (IOException e)
+		catch (Exception e)
 		{
 			uiTemplate = "<html><head></head><body>Exception:<br>" + e.getMessage() + "</body></html>";
 		}
