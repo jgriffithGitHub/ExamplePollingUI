@@ -88,6 +88,6 @@ public class Function
 		
 		log.info(uiTemplate);
 		
-		return request.createResponseBuilder(HttpStatus.OK).header("Content-Type", "test/html").body(uiTemplate).build();
+		return request.createResponseBuilder(HttpStatus.OK).header("Content-Type", "text/html").body(uiTemplate).build();
 	}
 }
