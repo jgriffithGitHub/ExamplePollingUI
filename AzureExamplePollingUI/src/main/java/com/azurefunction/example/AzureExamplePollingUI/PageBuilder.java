@@ -99,8 +99,8 @@ public class PageBuilder
 			{
 				log.info("Found a row");
 				voteButtons += "<div class=\"form-check\">\n";
-				voteButtons += "<input class=\"form-check-input\" type=\"radio\" name=\"flexRadioDefault\" id=\"flexRadioDefault" + (++count) + "\" value=\"" + rs.getString("idVoteType") + "\" >\n";
-				voteButtons += "<label class=\"form-check-label\" for=\"flexRadioDefault" + count + "\">";
+				voteButtons += "<input class=\"form-check-input\" type=\"radio\" name=\"vote\" id=\"vote" + (++count) + "\" value=\"" + rs.getString("idVoteType") + "\" >\n";
+				voteButtons += "<label class=\"form-check-label\" for=\"vote" + count + "\">";
 				voteButtons += rs.getString("voteName");  //rs.getString("idVoteType")
 				voteButtons += "</label>\n";
 				voteButtons += "</div>\n";
