@@ -75,22 +75,23 @@ public class Function
 		try
 		{
 			uiTemplate = Files.readString(uiFilePath);
-		} catch (IOException e)
+			//uiTemplate = "<html><head></head><body>This is HTML.</body></html>";
+			PageBuilder pb = new PageBuilder();
+			
+			//uiTemplate = "<html><head></head><body>Election ID = " + pb.setElectionId(log) + "</body></html>";
+			pb.setElectionId(log);
+			
+			//uiTemplate = pb.setTitle(uiTemplate, log);
+			//uiTemplate = pb.setVotes(uiTemplate, log);
+			
+			//log.info(uiTemplate);
+			
+	 	} 
+		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			uiTemplate = "<html><head></head><body>Exception:<br>" + e.getMessage() + "</body></html>";
 		}
 	
-		uiTemplate = "<html><head></head><body>This is HTML.</body></html>";
-		PageBuilder pb = new PageBuilder();
-		uiTemplate = "<html><head></head><body>Election ID = " + pb.setElectionId(log) + "</body></html>";
-
-		//pb.setElectionId(log);
-		//uiTemplate = pb.setTitle(uiTemplate, log);
-		//uiTemplate = pb.setVotes(uiTemplate, log);
-		
-		log.info(uiTemplate);
-		
-        return request.createResponseBuilder(HttpStatus.OK).header("Content-Type", "text/html").body(uiTemplate).build();
+       return request.createResponseBuilder(HttpStatus.OK).header("Content-Type", "text/html").body(uiTemplate).build();
 	}
 }
