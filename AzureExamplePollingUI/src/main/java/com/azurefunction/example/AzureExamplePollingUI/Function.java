@@ -10,6 +10,7 @@ import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -70,11 +71,13 @@ public class Function
 		log.info("principalId: " + principalId);
 
 		String uiTemplate = "";
-		Path uiFilePath = Path.of("src/main/resources/baseUi.html");
-		log.info(uiFilePath.toAbsolutePath().toString());
+		InputStream is = Function.class.getClassLoader().getResourceAsStream("baseUi.html");
+		//Path uiFilePath = Path.of("src/main/resources/baseUi.html");
+		//log.info(uiFilePath.toAbsolutePath().toString());
 		try
 		{
-			uiTemplate = Files.readString(uiFilePath);
+			byte[] htmlData = is.readAllBytes();			
+			uiTemplate = new String(htmlData);
 			//uiTemplate = "<html><head></head><body>This is HTML.</body></html>";
 			PageBuilder pb = new PageBuilder();
 			
