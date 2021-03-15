@@ -9,6 +9,10 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
@@ -42,7 +46,7 @@ public class Function
 		String principalName = "None provided";
 		String principalId = "None provided";
 		
-		String retText = "Headers: ";
+		String retText = " --- Headers: ";
 		Map<String,String> headers = request.getHeaders();
 		
 		if(headers == null || headers.isEmpty())
@@ -58,12 +62,6 @@ public class Function
 			}
 			else
 			{	
-				Iterator<Entry<String, String>> iterator = keySet.iterator();
-				while(iterator.hasNext())
-				{
-					Entry<String, String> entry = iterator.next();
-					retText += "Header Key: " + entry.getKey() + " Value: " + entry.getValue() + "\n";
-				}
 				principalName = headers.get("x-ms-client-principal-name");
 				principalId = headers.get("x-ms-client-principal-id");
 			}
@@ -72,7 +70,19 @@ public class Function
 		log.info(retText);			
 		log.info("principalName: " + principalName);
 		log.info("principalId: " + principalId);
+
+		String uiTemplate = "";
+		Path uiFilePath = Path.of("src/main/resources/baseUi.html");
+		log.info(uiFilePath.toAbsolutePath().toString());
+		try
+		{
+			uiTemplate = Files.readString(uiFilePath);
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + principalName + " ---" + retText).build();
+		return request.createResponseBuilder(HttpStatus.OK).header("Content-Type", "test/html").body(uiTemplate).build();
 	}
 }
