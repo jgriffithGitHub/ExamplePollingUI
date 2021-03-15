@@ -81,14 +81,16 @@ public class Function
 			e.printStackTrace();
 		}
 	
+		uiTemplate = "<html><head></head><body>This is HTML.</body></html>";
 		PageBuilder pb = new PageBuilder();
-		pb.setElectionId(log);
-		uiTemplate = pb.setTitle(uiTemplate, log);
-		uiTemplate = pb.setVotes(uiTemplate, log);
+		uiTemplate = "<html><head></head><body>Election ID = " + pb.setElectionId(log) + "</body></html>";
+
+		//pb.setElectionId(log);
+		//uiTemplate = pb.setTitle(uiTemplate, log);
+		//uiTemplate = pb.setVotes(uiTemplate, log);
 		
 		log.info(uiTemplate);
 		
-		uiTemplate = "<html><head></head><body>This is HTML.</body></html>";
         return request.createResponseBuilder(HttpStatus.OK).header("Content-Type", "text/html").body(uiTemplate).build();
 	}
 }
