@@ -1,5 +1,7 @@
 package com.azurefunction.example.AzureExamplePollingUI;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +11,8 @@ public class PageBuilder
 {
 	private final String TITLE_MARKER = "\\{Title\\}";
 	private final String VOTE_BUTTONS = "\\{VoteButtons\\}";
+	
+	String uiTemplate = "<html><head></head><body>Base Page Not Loaded</body></html>";
 	DatabaseConnection dbConn = null;
 	private Connection connection = null;
 	private int electionId = 0;
@@ -19,6 +23,26 @@ public class PageBuilder
 		connection = dbConn.getConnection();
 	}
 
+	public void loadTemplate()
+	{
+		try
+		{
+			InputStream is = Function.class.getClassLoader().getResourceAsStream("baseUi.html");
+			byte[] htmlData = is.readAllBytes();			
+			uiTemplate = new String(htmlData);
+	 	} 
+		catch (IOException e)
+		{
+			uiTemplate = "<html><head></head><body>Exception:<br>" + e.getMessage() + "</body></html>";
+		}
+		
+	}
+
+	public String getPage()
+	{
+		return uiTemplate;
+	}
+	
 	public int setElectionId(Logger log)
 	{
 		int retVal = 0;
@@ -48,9 +72,8 @@ public class PageBuilder
 		return retVal;
 	}
 	
-	public String setTitle(String page, Logger log)
+	public void setTitle(Logger log)
 	{
-		String retVal = page;
 		try
 		{
 			log.info("Setting title");
@@ -64,7 +87,7 @@ public class PageBuilder
 				log.info("Found a row");
 				String title = rs.getString("electionTitle");
 				log.info("Title = " + title);
-				retVal = retVal.replaceAll(TITLE_MARKER, title);
+				uiTemplate = uiTemplate.replaceAll(TITLE_MARKER, title);
 			}
 			else
 			{
@@ -76,13 +99,10 @@ public class PageBuilder
 			log.info("Exception: ");
 			e.printStackTrace();
 		}
-		
-		return retVal;
 	}
 
-	public String setVotes(String page, Logger log)
+	public void setVotes(Logger log)
 	{
-		String retVal = page;
 		try
 		{
 			log.info("Setting votes");
@@ -106,7 +126,7 @@ public class PageBuilder
 				voteButtons += "</div>\n";
 			}
 			
-			retVal = retVal.replaceAll(VOTE_BUTTONS, voteButtons);
+			uiTemplate = uiTemplate.replaceAll(VOTE_BUTTONS, voteButtons);
 			log.info(count + " rows returned");
 		}
 		catch(Exception e)
@@ -114,7 +134,5 @@ public class PageBuilder
 			log.info("Exception: ");
 			e.printStackTrace();
 		}
-		
-		return retVal;
 	}
 }

@@ -78,10 +78,12 @@ public class Function
 			uiTemplate = new String(htmlData);
 			PageBuilder pb = new PageBuilder();
 			
+			pb.loadTemplate();
 			pb.setElectionId(log);
 			
-			uiTemplate = pb.setTitle(uiTemplate, log);
-			uiTemplate = pb.setVotes(uiTemplate, log);
+			pb.setTitle(log);
+			pb.setVotes(log);
+			uiTemplate = pb.getPage();
 	 	} 
 		catch (IOException e)
 		{
