@@ -88,6 +88,7 @@ public class Function
 		
 		log.info(uiTemplate);
 		
+		uiTemplate = "<html><head></head><body>This is HTML.</body></html>";
         return request.createResponseBuilder(HttpStatus.OK).header("Content-Type", "text/html").body(uiTemplate).build();
 	}
 }
