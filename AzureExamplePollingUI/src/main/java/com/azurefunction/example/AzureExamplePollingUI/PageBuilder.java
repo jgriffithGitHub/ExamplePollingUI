@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 public class PageBuilder
 {
 	private final String TITLE_MARKER = "\\{Title\\}";
+	private final String VOTE_BUTTONS = "\\{VoteButtons\\}";
 	DatabaseConnection dbConn = null;
 	private Connection connection = null;
 	private int electionId = 0;
@@ -91,15 +92,22 @@ public class PageBuilder
 			PreparedStatement selectStatement = connection
 					.prepareStatement("select * from voteTypes where electionId = " + electionId + ";");
 	
+			String voteButtons = "";
 			ResultSet rs = selectStatement.executeQuery();
-			if(rs.next())
+			int count = 0;
+			while(rs.next())
 			{
 				log.info("Found a row");
+				voteButtons += "<div class=\"form-check\">\n";
+				voteButtons += "<input class=\"form-check-input\" type=\"radio\" name=\"flexRadioDefault\" id=\"flexRadioDefault" + (++count) + "\" value=\"" + rs.getString("idVoteType") + "\" >\n";
+				voteButtons += "<label class=\"form-check-label\" for=\"flexRadioDefault" + count + "\">";
+				voteButtons += rs.getString("voteName");  //rs.getString("idVoteType")
+				voteButtons += "</label>\n";
+				voteButtons += "</div>\n";
 			}
-			else
-			{
-				log.info("No rows returned");
-			}
+			
+			retVal = retVal.replaceAll(VOTE_BUTTONS, voteButtons);
+			log.info(count + " rows returned");
 		}
 		catch(Exception e)
 		{
