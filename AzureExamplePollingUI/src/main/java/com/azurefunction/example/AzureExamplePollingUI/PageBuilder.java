@@ -83,6 +83,7 @@ public class PageBuilder
 			{
 				String title = rs.getString("electionTitle");
 				uiTemplate = uiTemplate.replaceAll(TITLE_MARKER, title);
+				log.info(title);
 			}
 			else
 			{
