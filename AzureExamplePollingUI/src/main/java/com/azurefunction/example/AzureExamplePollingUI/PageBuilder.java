@@ -54,7 +54,6 @@ public class PageBuilder
 			ResultSet rs = selectStatement.executeQuery();
 			if(rs.next())
 			{
-				log.info("Found a row");
 				electionId = rs.getInt("idElection");
 				retVal = electionId;
 			}
@@ -76,17 +75,13 @@ public class PageBuilder
 	{
 		try
 		{
-			log.info("Setting title");
-			
 			PreparedStatement selectStatement = connection
 					.prepareStatement("select * from electionDetails where idElection = " + electionId + ";");
 	
 			ResultSet rs = selectStatement.executeQuery();
 			if(rs.next())
 			{
-				log.info("Found a row");
 				String title = rs.getString("electionTitle");
-				log.info("Title = " + title);
 				uiTemplate = uiTemplate.replaceAll(TITLE_MARKER, title);
 			}
 			else
@@ -105,10 +100,6 @@ public class PageBuilder
 	{
 		try
 		{
-			log.info("Setting votes");
-			DatabaseConnection dbConn = new DatabaseConnection();
-			Connection connection = dbConn.getConnection();
-			
 			PreparedStatement selectStatement = connection
 					.prepareStatement("select * from voteTypes where electionId = " + electionId + ";");
 	
@@ -117,7 +108,6 @@ public class PageBuilder
 			int count = 0;
 			while(rs.next())
 			{
-				log.info("Found a row");
 				voteButtons += "<div class=\"form-check\">\n";
 				voteButtons += "<input class=\"form-check-input\" type=\"radio\" name=\"vote\" id=\"vote" + (++count) + "\" value=\"" + rs.getString("idVoteType") + "\" >\n";
 				voteButtons += "<label class=\"form-check-label\" for=\"vote" + count + "\">";

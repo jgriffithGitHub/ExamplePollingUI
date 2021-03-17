@@ -26,8 +26,10 @@ public class Function
 	 * host}/api/HttpExample 2. curl "{your host}/api/HttpExample?name=HTTP%20Query"
 	 */
 	@FunctionName("GetVotingUI")
-	public HttpResponseMessage run(@HttpTrigger(name = "req", methods =
-	{ HttpMethod.GET }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
+	public HttpResponseMessage run(
+				@HttpTrigger(name = "req", methods = { HttpMethod.GET }, 
+				authLevel = AuthorizationLevel.ANONYMOUS)
+			HttpRequestMessage<Optional<String>> request,
 			final ExecutionContext context)
 	{
 		Logger log = context.getLogger();
